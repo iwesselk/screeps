@@ -10,4 +10,4 @@ It is released for reference only. Please do not use this code word for word.
 * A way for harvesters to determine where to go
 * Tools to pervent screep congestion among common or short paths.
 * A way to limit, and maintain the number of screeps to a specific scale
-* The type of bot to be spawning.
+* The type of creep to be spawning.
