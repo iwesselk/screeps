@@ -1,7 +1,6 @@
 /*
  * All the functions related to managing multiple rooms worth of screeps
  */
-const jobs = reqiure("jobs");
 
 function get_room_list() {
     let rooms = []
