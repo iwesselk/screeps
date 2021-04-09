@@ -2,6 +2,7 @@ const harvester = require('role_harvest');
 const memory_magic = require('memory_magic');
 const spawn = require('spawn');
 const rooms = require('rooms');
+const creeps = require('creeps');
 const jobs = require('jobs');
 
 
@@ -22,9 +23,9 @@ module.exports.loop = function() {
     let room_name = "W5N8";
     spawn.do_spawn_stuff(room_name);
     jobs.process_room(room_name);
-    let creeps_list = rooms.get_list_of_creep_rooms()[room_name];
-    for (let creep_name in creeps_list) {
-        creep.process_creep(creep_name)
+    let creeps_list = creeps.creeps_for_room(room_name);
+    for (let creep_number in creeps_list) {
+        creeps.process_creep(creeps_list[creep_number])
     }
 
     //if ((num_creeps < limit_creeps+1) && spawn_energy < parts_cost(my_parts_list) && myspawn.Spawning == null) {

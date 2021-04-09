@@ -22,6 +22,7 @@ module.exports.init_vars = function () {
         } else {
             console.log("Creep " + creep_key + " job is " + creep.memory.job);
         }
+        creep.memory.taret = undefined;
     }
 };
 

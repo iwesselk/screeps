@@ -15,44 +15,44 @@ function process_creeps_in_room(room_name) {
         
     }
 }
-function process_creep(creep_name) {
-    let creep = Game.creeps[creep_name];
+function process_creep(creep) {
     // let current_capacity = creep.store[RESOURCE_ENERGY];
+    let target = null;
     switch (creep.memory.job) {
         case "harvest":
-            let target = Game.getObjectById(creep.memory.target);
+            target = Game.getObjectById(creep.memory.target);
             let result_harvest = creep.harvest(target);
             if (result_harvest == ERR_NOT_IN_RANGE) {
                 let result_move = creep.moveTo(target);
                 if (result_move != 0) {
-                    console.log("Result of moving creep " + creep_name + " was non zero " + result_move);
+                    console.log("Result of moving creep " + creep.name + " was non zero " + result_move);
                 }
             }
 
-            if (creep.store[RESOURCE_ENERGY] >= creep.store.getCapacity()) {
-                creep.memory.taret = null;
+            if (creep.store[RESOURCE_ENERGY] == creep.store.getCapacity()) {
+                creep.memory.target = null;
                 creep.memory.job = "idle";
             }
             break;
 
         case "delivery":
-            let target = Game.getObjectById(creep.memory.target);
+            target = Game.getObjectById(creep.memory.target);
             let result_transfer = creep.transfer(target);
             if (result_transfer == ERR_NOT_IN_RANGE) {
                 let result_move = creep.moveTo(target);
                 if (result_move != 0) {
-                    console.log("Result of moving creep " + creep_name + " was non zero " + result_move);
+                    console.log("Result of moving creep " + creep.name + " was non zero " + result_move);
                 }
             }
 
             if (creep.store[RESOURCE_ENERGY] == 0) {
-                creep.memory.taret = null;
+                creep.memory.target = null;
                 creep.memory.job = "idle";
             }
             break;
 
         case "idle":
-            console.log("Idle creep " + creep_name);
+            console.log("Idle creep " + creep.name);
             break;
     }
 }
