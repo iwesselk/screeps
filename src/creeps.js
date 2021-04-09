@@ -24,9 +24,11 @@ function process_creep(creep) {
             let result_harvest = creep.harvest(target);
             if (result_harvest == ERR_NOT_IN_RANGE) {
                 let result_move = creep.moveTo(target);
-                if (result_move != 0) {
+                if (result_move != 0 && result_move != -11) {
                     console.log("Result of moving creep " + creep.name + " was non zero " + result_move);
                 }
+            } else if (result_harvest != 0) {
+                console.log("Result of harvest for creep " + creep.name + " was non zero " + result_harvest);
             }
 
             if (creep.store[RESOURCE_ENERGY] == creep.store.getCapacity()) {
@@ -37,12 +39,16 @@ function process_creep(creep) {
 
         case "delivery":
             target = Game.getObjectById(creep.memory.target);
-            let result_transfer = creep.transfer(target);
+            let result_transfer = creep.transfer(target, RESOURCE_ENERGY);
             if (result_transfer == ERR_NOT_IN_RANGE) {
                 let result_move = creep.moveTo(target);
-                if (result_move != 0) {
+                if (result_move != 0 && result_move != -11) {
                     console.log("Result of moving creep " + creep.name + " was non zero " + result_move);
                 }
+            } else if (result_transfer == -10) {
+                console.log("Bad transfer from " + creep.name + " to " + target);
+            } else if (result_transfer != 0) {
+                console.log("Result of transfer for creep " + creep.name + " was non zero " + result_transfer);
             }
 
             if (creep.store[RESOURCE_ENERGY] == 0) {

@@ -20,14 +20,16 @@ function get_creeps_by_job(room_name, job_name) {
 function process_room(room_name) {
     let room = Game.rooms[room_name];
     let idle_creeps = get_creeps_by_job(room_name, "idle");
+    // TODO: Provide the ability to pull creeps off of spawn.
+    let transfer_creeps = get_creeps_by_job(room_name, "transfer");
     for (let creep_number in idle_creeps) {
         let creep = idle_creeps[creep_number]
         console.log("Creep in jobs " + creep.name + " job is " + creep.memory.job);
         if (creep.store[RESOURCE_ENERGY] == creep.store.getCapacity()) {
             if (spawn.does_need_energy()) {
-                console.log("Spawn id " + spawn.id);
+                console.log("Spawn id " + spawn.get_spawn_for_room(room_name).id);
                 creep.memory.job = "delivery";
-                creep.memory.target = spawn.id;
+                creep.memory.target = spawn.get_spawn_for_room(room_name).id;
             } else {
                 let controller_id = room.controller.id;
                 console.log("Controller id " + controller_id);

@@ -41,19 +41,24 @@ function does_need_energy() {
     return needs_energy;
 }
 
+function get_spawn_for_room(room_name) {
+    return Game.rooms[room_name].find(FIND_MY_SPAWNS)[0];
+}
 function do_spawn_stuff(room_name) {
     let my_parts_list = [WORK, MOVE, MOVE, CARRY, CARRY];
     let total_cost = parts_cost(my_parts_list);
-    let my_energy = Game.spawns[room_name];
+    let myspawn = get_spawn_for_room(room_name);
+    let my_energy = myspawn.energy;
+    let newname = first_available_name("harvester");
 
     if (creep_count() < creep_limit && my_energy >= total_cost) {
         let result = myspawn.spawnCreep(my_parts_list, newname)
         if (result != 0) {
-            console.log("Spawn result is " + result);
+            console.log("Spawn result is " + result + " newname " + newname);
         }
     } else if (my_energy < total_cost) {
         needs_energy = true;
     }
 }
 
-module.exports = {does_need_energy, parts_cost, first_available_name, creep_count, has_enough_energy, do_spawn_stuff};
+module.exports = {does_need_energy, parts_cost, first_available_name, creep_count, has_enough_energy, do_spawn_stuff, get_spawn_for_room};

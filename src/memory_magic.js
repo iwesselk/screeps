@@ -27,5 +27,13 @@ module.exports.init_vars = function () {
 };
 
 module.exports.clean_vars = function () {
-    
+    for (let memory_name in Memory.creeps) {
+        if (Game.creeps[memory_name] == undefined) {
+            Memory.creeps[memory_name] = undefined;
+        } else {
+            if (Memory.creeps[memory_name].job != undefined && Memory.creeps[memory_name].target == undefined) {
+                Memory.creeps[memory_name].job = "idle";
+            }
+        }
+    }
 }
