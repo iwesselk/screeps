@@ -5,6 +5,30 @@
 const spawn = require('spawn');
 const creeps = require('creeps');
 
+const JOB_TYPES = {
+    HARVEST: "HARVEST",
+    ATTACK: "ATTACK", //Unused yet
+    BUILD: "BUILD", //Unused Yet
+    HEAL: "HEAL", //Unused yet
+    DELIVER: "DELIVER"
+}
+Object.freeze(JOB_TYPES);
+
+class Job {
+    constructor (target, job_type, amount_of_energy) {
+        this.target = target;
+        this.job_type = job_type;
+        this.amount_of_energy = amount_of_energy;
+    }
+}
+
+let job_list = [];
+
+
+function register_job(job) {
+    job_list.push(job);
+}
+
 function get_creeps_by_job(room_name, job_name) {
     let creeps_in_room = creeps.creeps_for_room(room_name)
     let creeps_in_job = []
@@ -20,8 +44,6 @@ function get_creeps_by_job(room_name, job_name) {
 function process_room(room_name) {
     let room = Game.rooms[room_name];
     let idle_creeps = get_creeps_by_job(room_name, "idle");
-    // TODO: Provide the ability to pull creeps off of spawn.
-    let transfer_creeps = get_creeps_by_job(room_name, "transfer");
     for (let creep_number in idle_creeps) {
         let creep = idle_creeps[creep_number]
         console.log("Creep in jobs " + creep.name + " job is " + creep.memory.job);
@@ -46,4 +68,4 @@ function process_room(room_name) {
     
 }
 
-module.exports = {get_creeps_by_job, process_room}
+module.exports = {get_creeps_by_job, process_room, register_job, Job}

@@ -2,7 +2,16 @@
  * All the functions related to screep spawning
  */
 const creep_limit = 30;
-let parts_costs_list = {move: 50, work: 100, carry: 50};
+let parts_costs_list = {
+    move: 50,
+    work: 100,
+    carry: 50,
+    attack: 80,
+    ranged_attack: 150,
+    heal: 250,
+    claim: 600,
+    tough: 10
+};
 let room_spawn_energy_needs = {}
 // Todo: Make room aware
 let needs_energy = false;
