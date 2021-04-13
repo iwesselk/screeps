@@ -1,7 +1,10 @@
 /*
  * All the functions related to screep spawning
  */
+const jobs = require("jobs");
+
 const creep_limit = 30;
+
 let parts_costs_list = {
     move: 50,
     work: 100,
@@ -12,9 +15,6 @@ let parts_costs_list = {
     claim: 600,
     tough: 10
 };
-let room_spawn_energy_needs = {}
-// Todo: Make room aware
-let needs_energy = false;
 
 function parts_cost(parts_list) {
     let cost = 0;
@@ -46,13 +46,10 @@ function has_enough_energy(cost) {
     return Game.spawns["Spawn1"].energy >= cost;
 }
 
-function does_need_energy() {
-    return needs_energy;
-}
-
 function get_spawn_for_room(room_name) {
     return Game.rooms[room_name].find(FIND_MY_SPAWNS)[0];
 }
+
 function do_spawn_stuff(room_name) {
     let my_parts_list = [WORK, MOVE, MOVE, CARRY, CARRY];
     let total_cost = parts_cost(my_parts_list);
@@ -66,8 +63,11 @@ function do_spawn_stuff(room_name) {
             console.log("Spawn result is " + result + " newname " + newname);
         }
     } else if (my_energy < total_cost) {
-        needs_energy = true;
+        needed_energy = total_cost - my_energy;
+        new_job = new jobs.Job(myspawn.id, jobs.JOB_TYPES.DELIVER, needed_energy, 10)
+        jobs.register_job(new_job);
     }
 }
 
-module.exports = {does_need_energy, parts_cost, first_available_name, creep_count, has_enough_energy, do_spawn_stuff, get_spawn_for_room};
+module.exports = {parts_cost, first_available_name, creep_count, 
+    has_enough_energy, do_spawn_stuff, get_spawn_for_room};

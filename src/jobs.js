@@ -2,23 +2,18 @@
  * All the functions related to assigning jobs to creeps
  */
 //const rooms = require("rooms");
-const spawn = require('spawn');
+//const spawn = require('spawn');
 const creeps = require('creeps');
-
-const JOB_TYPES = {
-    HARVEST: "HARVEST",
-    ATTACK: "ATTACK", //Unused yet
-    BUILD: "BUILD", //Unused Yet
-    HEAL: "HEAL", //Unused yet
-    DELIVER: "DELIVER"
-}
-Object.freeze(JOB_TYPES);
+const enums = require('enums');
 
 class Job {
-    constructor (target, job_type, amount_of_energy) {
+    // Target is an id, job type is a "JOB_TYPES", amount_of_energy is how much is needed,
+    // priority is how bad its needed. Just an int. 10 is spawn
+    constructor (target, job_type, amount_of_energy, priority) {
         this.target = target;
         this.job_type = job_type;
         this.amount_of_energy = amount_of_energy;
+        this.priority = priority;
     }
 }
 
@@ -41,6 +36,21 @@ function get_creeps_by_job(room_name, job_name) {
     return creeps_in_job;
 }
 
+function jobs_list_copy() {
+    new_job_list = [];
+    for (let i in jobs_list) {
+        let job = jobs_list[i];
+        new_job_list.push(new Job(job.target, job.job_type, job.amount_of_energy, job.priority));
+    }
+    return new_job_list;
+}
+
+function new_process_room(room_name) {
+    jobs_list.sort(function(a, b) { return a.priority > b.priority});
+    let room = Game.rooms[room_name];
+    let idle_creeps = get_creeps_by_job(room_name, enums.JOB_TYPES.IDLE);
+}
+
 function process_room(room_name) {
     let room = Game.rooms[room_name];
     let idle_creeps = get_creeps_by_job(room_name, "idle");
@@ -48,16 +58,16 @@ function process_room(room_name) {
         let creep = idle_creeps[creep_number]
         console.log("Creep in jobs " + creep.name + " job is " + creep.memory.job);
         if (creep.store[RESOURCE_ENERGY] == creep.store.getCapacity()) {
-            if (spawn.does_need_energy()) {
-                console.log("Spawn id " + spawn.get_spawn_for_room(room_name).id);
-                creep.memory.job = "delivery";
-                creep.memory.target = spawn.get_spawn_for_room(room_name).id;
-            } else {
+            // if (spawn.does_need_energy()) {
+            //     console.log("Spawn id " + spawn.get_spawn_for_room(room_name).id);
+            //     creep.memory.job = "delivery";
+            //     creep.memory.target = spawn.get_spawn_for_room(room_name).id;
+            // } else {
                 let controller_id = room.controller.id;
                 console.log("Controller id " + controller_id);
                 creep.memory.job = "delivery";
                 creep.memory.target = controller_id;
-            }
+            // }
         } else {
             let energy_spots = creep.room.find(FIND_SOURCES);
             let nearest_energy = creep.pos.findClosestByPath(energy_spots);
