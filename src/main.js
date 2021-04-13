@@ -1,4 +1,4 @@
-const harvester = require('role_harvest');
+//const harvester = require('role_harvest');
 const memory_magic = require('memory_magic');
 const spawn = require('spawn');
 const rooms = require('rooms');
@@ -10,7 +10,7 @@ const jobs = require('jobs');
 module.exports.loop = function() {
     console.log("CPU limit " + Game.cpu.limit + " tick limit " +
         Game.cpu.tickLimit + " CPU Bucket " + Game.cpu.bucket);
-    console.log("CPU at the start of the loop is: " + Game.getUsedCPU());
+    console.log("CPU at the start of the loop is: " + Game.getUsedCpu());
 
     memory_magic.init_vars();
     memory_magic.clean_vars();
@@ -24,5 +24,5 @@ module.exports.loop = function() {
     for (let creep_number in creeps_list) {
         creeps.process_creep(creeps_list[creep_number])
     }
-    console.log("CPU at the end of the loop is: " + Game.getUsedCPU());
+    console.log("CPU at the end of the loop is: " + Game.getUsedCpu());
 }

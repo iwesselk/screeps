@@ -1,6 +1,7 @@
 /*
  * Handles particular creep jobs
  */
+const enums = require("enums");
 
 function number_of_creeps(room_name) {
     return creeps_for_room(room_name).length;
@@ -27,7 +28,7 @@ function filter_creeps_for_energy(creep_list) {
     return valid_creeps;
 }
 
-function filter_creeps_for_no_energy() {
+function filter_creeps_for_no_energy(creep_list) {
     let valid_creeps = creep_list.filter(creep => creep.store[RESOURCE_ENERGY] == 0);
     return valid_creeps;
 }
@@ -42,7 +43,7 @@ function process_creep(creep) {
     // let current_capacity = creep.store[RESOURCE_ENERGY];
     let target = null;
     switch (creep.memory.job) {
-        case enums.JOB_TYPE.HARVEST:
+        case enums.JOB_TYPES.HARVEST:
             target = Game.getObjectById(creep.memory.target);
             let result_harvest = creep.harvest(target);
             if (result_harvest == ERR_NOT_IN_RANGE) {
@@ -60,8 +61,8 @@ function process_creep(creep) {
             }
             break;
 
-        case enums.JOB_TYPE.DELIVER_LIMITED:
-        case enums.JOB_TYPE.DELIVER:
+        case enums.JOB_TYPES.DELIVER_LIMITED:
+        case enums.JOB_TYPES.DELIVER:
             target = Game.getObjectById(creep.memory.target);
             let result_transfer = creep.transfer(target, RESOURCE_ENERGY);
             if (result_transfer == ERR_NOT_IN_RANGE) {
@@ -70,7 +71,7 @@ function process_creep(creep) {
                     console.log("Result of moving creep " + creep.name + " was non zero " + result_move);
                 }
             } else if (result_transfer == ERR_FULL) {
-                creep.memory.job = enums.JOB_TYPE.IDLE;
+                creep.memory.job = enums.JOB_TYPES.IDLE;
                 creep.memory.target = null;
             } else if (result_transfer == ERR_INVALID_ARGS) {
                 console.log("Bad transfer from " + creep.name + " to " + target);
@@ -80,13 +81,16 @@ function process_creep(creep) {
 
             if (creep.store[RESOURCE_ENERGY] == 0) {
                 creep.memory.target = null;
-                creep.memory.job = enums.JOB_TYPE.IDLE;
+                creep.memory.job = enums.JOB_TYPES.IDLE;
             }
             break;
 
-        case enums.JOB_TYPE.IDLE:
+        case enums.JOB_TYPES.IDLE:
             console.log("Idle creep " + creep.name);
             break;
+        default:
+            creep.memory.target = null;
+            creep.memory.job = enums.JOB_TYPES.IDLE;
     }
 }
 

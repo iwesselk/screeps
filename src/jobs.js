@@ -56,17 +56,18 @@ function create_jobs(room_name) {
 }
 
 function process_room(room_name) {
-    jobs_list.sort(sort_jobs_function);
+    job_list.sort(sort_jobs_function);
     let room = Game.rooms[room_name];
     let idle_creeps = creeps.get_creeps_by_job(room_name, enums.JOB_TYPES.IDLE);
-    for (let i in jobs_list) {
-        job = jobs_list[i];
+    let creep_list = null;
+    for (let i in job_list) {
+        job = job_list[i];
         switch (job.job_type) {
             case enums.JOB_TYPES.DELIVER_LIMITED:
                 // I want IDLE creeps that have more than 0 energy
                 //TODO: Find closest creep to goal
                 // roomPosition.findClosestByPath
-                let creep_list = creeps.filter_creeps_for_energy(idle_creeps);
+                creep_list = creeps.filter_creeps_for_energy(idle_creeps);
                 for (let c in creep_list) {
                     creep = creep_list[c];
                     job.amount_of_energy -= creep.store[RESOURCE_ENERGY];
@@ -80,7 +81,7 @@ function process_room(room_name) {
                 }
                 break;
             case enums.JOB_TYPES.DELIVER:
-                let creep_list = creeps.filter_creeps_for_energy(idle_creeps);
+                creep_list = creeps.filter_creeps_for_energy(idle_creeps);
                 for (let c in creep_list) {
                     creep = creep_list[c];
 
@@ -93,7 +94,7 @@ function process_room(room_name) {
                 //TODO: Find closest creep to goal
                 //TODO: This code has potential to over send creeps to one energy source
                 // Ignoring the rest.
-                let creep_list = creeps.filter_creeps_for_no_energy(idle_creeps);
+                creep_list = creeps.filter_creeps_for_no_energy(idle_creeps);
                 for (let c in creep_list) {
                     creep = creep_list[c];
                     
