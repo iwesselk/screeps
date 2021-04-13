@@ -18,6 +18,7 @@ module.exports.loop = function() {
     // Temporarily only process one room at a time
     let room_name = "W5N8";
     spawn.do_spawn_stuff(room_name);
+    jobs.create_jobs(room_name);
     jobs.process_room(room_name);
     let creeps_list = creeps.creeps_for_room(room_name);
     for (let creep_number in creeps_list) {

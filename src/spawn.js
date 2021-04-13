@@ -64,7 +64,7 @@ function do_spawn_stuff(room_name) {
         }
     } else if (my_energy < total_cost) {
         needed_energy = total_cost - my_energy;
-        new_job = new jobs.Job(myspawn.id, jobs.JOB_TYPES.DELIVER, needed_energy, 10)
+        new_job = new jobs.Job(myspawn.id, jobs.JOB_TYPES.DELIVER_LIMITED, needed_energy, 10)
         jobs.register_job(new_job);
     }
 }
