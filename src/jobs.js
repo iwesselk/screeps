@@ -19,11 +19,13 @@ class Job {
 
 let job_list = [];
 
+function reset_jobs() {
+    job_list = [];
+}
 
 function register_job(job) {
     job_list.push(job);
 }
-
 
 function jobs_list_copy() {
     new_job_list = [];
@@ -53,6 +55,7 @@ function create_jobs(room_name) {
     let resource_controller = Game.rooms[room_name].controller;
     let job = new Job(resource_controller.id, enums.JOB_TYPES.DELIVER, 0, 0);
     register_job(job);
+    
 }
 
 function process_room(room_name) {
@@ -135,4 +138,4 @@ function old_process_room(room_name) {
     
 }
 
-module.exports = {create_jobs, process_room, register_job, Job}
+module.exports = {create_jobs, process_room, register_job, Job, reset_jobs}

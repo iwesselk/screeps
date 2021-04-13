@@ -14,7 +14,8 @@ module.exports.loop = function() {
 
     memory_magic.init_vars();
     memory_magic.clean_vars();
-
+    jobs.reset_jobs();
+    
     // Temporarily only process one room at a time
     let room_name = "W5N8";
     spawn.do_spawn_stuff(room_name);
