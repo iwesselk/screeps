@@ -12,7 +12,7 @@ function creeps_for_room(room_name) {
 }
 
 function get_creeps_by_job(room_name, job_type) {
-    let creeps_in_room = creeps.creeps_for_room(room_name)
+    let creeps_in_room = creeps_for_room(room_name)
     let creeps_in_job = []
     for (let creep_number in creeps_in_room) {
         let creep = creeps_in_room[creep_number];
@@ -57,7 +57,7 @@ function process_creep(creep) {
 
             if (creep.store[RESOURCE_ENERGY] == creep.store.getCapacity()) {
                 creep.memory.target = null;
-                creep.memory.job = enums.JOB_TYPE.IDLE;
+                creep.memory.job = enums.JOB_TYPES.IDLE;
             }
             break;
 

@@ -2,6 +2,8 @@
  * All the functions related to screep spawning
  */
 const jobs = require("jobs");
+const Job = require('job');
+const job_builders = require("job_builders")
 const enums = require("enums");
 const creep_limit = 30;
 
@@ -62,10 +64,11 @@ function do_spawn_stuff(room_name) {
         if (result != 0) {
             console.log("Spawn result is " + result + " newname " + newname);
         }
+        //TODO: Move job creation to job_builder.js
     } else if (my_energy < total_cost) {
         needed_energy = total_cost - my_energy;
-        new_job = new jobs.Job(myspawn.id, enums.JOB_TYPES.DELIVER_LIMITED, needed_energy, 10)
-        jobs.register_job(new_job);
+        new_job = new Job(myspawn.id, enums.JOB_TYPES.DELIVER_LIMITED, needed_energy, 10)
+        job_builders.register_job(new_job);
     }
 }
 
