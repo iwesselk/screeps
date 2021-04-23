@@ -1,0 +1,20 @@
+{
+  "name": "screeps",
+  "version": "1.0.0",
+  "description": "This is my screeps bot. Currently, only running in a private server for the time being.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "upload": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iwesselk/screeps.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iwesselk/screeps/issues"
+  },
+  "homepage": "https://github.com/iwesselk/screeps#readme"
+}
